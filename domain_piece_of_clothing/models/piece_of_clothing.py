@@ -21,13 +21,17 @@ class SizeLabel(str, Enum):
     XL = "gg"
 
 
+class ClothSpecificationModel(BaseModel):
+    gender: Gender
+    size_label: SizeLabel
+    size: int
+    weight: int
+
+
 class PieceOfClothingModel(BaseModel):
     """Ipsum ipsum"""
 
     name: str
     category: str
     subcategory: str
-    gender: Gender
-    size_label: SizeLabel
-    size: int
-    weight: int
+    specifications: list[ClothSpecificationModel]
