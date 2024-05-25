@@ -1,4 +1,4 @@
-from domain_piece_of_clothing.models.piece_of_clothing import PieceOfClothingModel
+from domain_piece_of_clothing.models import PieceOfClothingModel
 
 from .interfaces import InputPort, OutputPort
 
