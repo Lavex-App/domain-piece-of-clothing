@@ -2,7 +2,12 @@ from abc import ABCMeta, abstractmethod
 from typing import Generic, TypeVar
 
 from .services import PieceOfClothingService
-from .use_cases import RegisterPieceOfClothingServices, RegisterPieceOfClothingUseCase
+from .use_cases import (
+    RegisterPieceOfClothingServices,
+    RegisterPieceOfClothingUseCase,
+    RetrieveClothesServices,
+    RetrieveClothesUseCase,
+)
 
 T_persist_piece_of_clothing_service_co = TypeVar(
     "T_persist_piece_of_clothing_service_co", bound=PieceOfClothingService, covariant=True
@@ -19,7 +24,13 @@ class BusinessFactory:
         self.__factory = adapters_factory
 
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
-        services = RegisterPieceOfClothingServices(
-            persist_piece_of_clothing_service=self.__factory.piece_of_clothing_service()
-        )
+        services = RegisterPieceOfClothingServices(persist_piece_of_clothing_service=self.__piece_of_clothing_service)
         return RegisterPieceOfClothingUseCase(services=services)
+
+    def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
+        services = RetrieveClothesServices(piece_of_clothing_service=self.__piece_of_clothing_service)
+        return RetrieveClothesUseCase(services=services)
+
+    @property
+    def __piece_of_clothing_service(self) -> PieceOfClothingService:
+        return self.__factory.piece_of_clothing_service()
