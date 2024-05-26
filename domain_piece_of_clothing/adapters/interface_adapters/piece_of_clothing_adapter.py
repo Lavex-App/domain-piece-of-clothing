@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo.results import InsertOneResult
 
 from domain_piece_of_clothing.business.services import PieceOfClothingService
-from domain_piece_of_clothing.models import PieceOfClothingModel
+from domain_piece_of_clothing.models import PieceOfClothingIdModel, PieceOfClothingModel
 
 from .exceptions import CouldNotPerformDatabaseOperation
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
@@ -22,8 +22,8 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
         database_provider.database = DatabaseName.PIECE_OF_CLOTHING  # type: ignore
         self.__cloths_collection = database_provider.database["cloths"]
 
-    async def register(self, piece_of_clothing: PieceOfClothingModel) -> None:
+    async def register(self, piece_of_clothing: PieceOfClothingModel) -> PieceOfClothingIdModel:
         insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing.model_dump())
         if insertion_result.inserted_id:
-            return None
+            return PieceOfClothingIdModel(registered_piece_of_clothing_id=insertion_result.inserted_id)
         raise CouldNotPerformDatabaseOperation()

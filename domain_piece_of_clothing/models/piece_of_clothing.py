@@ -4,16 +4,12 @@ from pydantic import BaseModel
 
 
 class Gender(str, Enum):
-    """Ipsum ipsum"""
-
     M = "male"
     F = "female"
     U = "unisex"
 
 
 class SizeLabel(str, Enum):
-    """Ipsum ipsum"""
-
     XS = "pp"
     S = "p"
     M = "m"
@@ -29,9 +25,11 @@ class ClothSpecificationModel(BaseModel):
 
 
 class PieceOfClothingModel(BaseModel):
-    """Ipsum ipsum"""
-
     name: str
     category: str
     subcategory: str
     specifications: list[ClothSpecificationModel]
+
+
+class PieceOfClothingIdModel(BaseModel):
+    registered_piece_of_clothing_id: str
