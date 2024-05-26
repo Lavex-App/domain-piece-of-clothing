@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
 from domain_piece_of_clothing.business.ports import RegisterPieceOfClothingInputPort
 
@@ -10,7 +10,11 @@ from .dtos import RegisterPieceOfClothingInputDTO, RegisterPieceOfClothingOutput
 piece_of_clothing_controller = APIRouter(prefix="/clothing")
 
 
-@piece_of_clothing_controller.post("/", response_model=RegisterPieceOfClothingOutputDTO)
+@piece_of_clothing_controller.post(
+    "/",
+    response_model=RegisterPieceOfClothingOutputDTO,
+    status_code=status.HTTP_201_CREATED,
+)
 async def register_piece_of_clothing(
     input_dto: RegisterPieceOfClothingInputDTO,
     dependencies: Annotated[PieceOfClothingControllerDependencies, Depends()],
