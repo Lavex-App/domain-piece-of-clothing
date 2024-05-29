@@ -1,8 +1,17 @@
 from abc import ABCMeta
-from typing import Any
+from typing import Any, Optional
+
+from fastapi import Depends, Query
 
 from domain_piece_of_clothing.business import BusinessFactory
-from domain_piece_of_clothing.business.use_cases import RegisterPieceOfClothingUseCase
+from domain_piece_of_clothing.business.use_cases import RegisterPieceOfClothingUseCase, RetrieveClothesUseCase
+from domain_piece_of_clothing.models import (
+    Gender,
+    PaginationModel,
+    PieceOfClothingFilterModel,
+    PieceOfClothingSortModel,
+    SizeLabel,
+)
 
 
 def bind_controller_dependencies(business_factory: BusinessFactory) -> None:
@@ -35,13 +44,51 @@ class _ControllerDependencyManager(metaclass=_Singleton):
             return self.__factory.register_piece_of_clothing_use_case()
         raise ControllerDependencyManagerIsNotInitializedException()
 
+    def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
+        if self.__factory:
+            return self.__factory.retrieve_clothes_use_case()
+        raise ControllerDependencyManagerIsNotInitializedException()
+
 
 class _ControllerDependency(metaclass=ABCMeta):
     def __init__(self) -> None:
         self._dependency_manager = _ControllerDependencyManager()
 
 
+class _FilterAndPaginationControllerDependency(_ControllerDependency):
+    def __init__(
+        self,
+        pagination: PaginationModel = Depends(),
+        sorting: PieceOfClothingSortModel = Depends(),
+        name: Optional[list[str]] = Query(None),
+        category: Optional[list[str]] = Query(None),
+        subcategory: Optional[list[str]] = Query(None),
+        gender: Optional[list[Gender]] = Query(None),
+        size_label: Optional[list[SizeLabel]] = Query(None),
+        weight: Optional[list[int]] = Query(None),
+        size: Optional[list[int]] = Query(None),
+    ) -> None:
+        super().__init__()
+        self.pagination_model = pagination
+        self.sorting_model = sorting
+        self.filtering_model = PieceOfClothingFilterModel(
+            name=name,
+            category=category,
+            subcategory=subcategory,
+            gender=gender,
+            size_label=size_label,
+            weight=weight,
+            size=size,
+        )
+
+
 class PieceOfClothingControllerDependencies(_ControllerDependency):
     @property
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
         return self._dependency_manager.register_piece_of_clothing_use_case()
+
+
+class PieceOfClothingWithFilterAndPaginationControllerDependencies(_FilterAndPaginationControllerDependency):
+    @property
+    def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
+        return self._dependency_manager.retrieve_clothes_use_case()
