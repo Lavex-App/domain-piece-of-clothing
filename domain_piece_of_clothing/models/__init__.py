@@ -1,4 +1,10 @@
-from .filters import PageModel, PaginationModel, PieceOfClothingFilterModel, PieceOfClothingItems
+from .filters import (
+    PageModel,
+    PaginationModel,
+    PieceOfClothingFilterModel,
+    PieceOfClothingItems,
+    PieceOfClothingSortModel,
+)
 from .piece_of_clothing import ClothSpecificationModel, Gender, PieceOfClothingIdModel, PieceOfClothingModel, SizeLabel
 
 __all__ = [
@@ -11,4 +17,5 @@ __all__ = [
     "PageModel",
     "PieceOfClothingFilterModel",
     "PieceOfClothingItems",
+    "PieceOfClothingSortModel",
 ]
