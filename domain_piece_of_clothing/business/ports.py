@@ -4,6 +4,7 @@ from domain_piece_of_clothing.models import (
     PieceOfClothingIdModel,
     PieceOfClothingItems,
     PieceOfClothingModel,
+    PieceOfClothingSortModel,
 )
 
 from .interfaces import InputPort, OutputPort
@@ -16,7 +17,10 @@ class RegisterPieceOfClothingOutputPort(OutputPort, PieceOfClothingIdModel):
     msg: str
 
 
-class RetrieveClothesInputPort(InputPort, PieceOfClothingFilterModel, PaginationModel): ...
+class RetrieveClothesInputPort(InputPort):
+    filter: PieceOfClothingFilterModel
+    pagination: PaginationModel
+    sort: PieceOfClothingSortModel
 
 
 class RetrieveClothesOutputPort(OutputPort, PieceOfClothingItems):

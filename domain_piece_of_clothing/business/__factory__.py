@@ -24,7 +24,7 @@ class BusinessFactory:
         self.__factory = adapters_factory
 
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
-        services = RegisterPieceOfClothingServices(persist_piece_of_clothing_service=self.__piece_of_clothing_service)
+        services = RegisterPieceOfClothingServices(piece_of_clothing_service=self.__piece_of_clothing_service)
         return RegisterPieceOfClothingUseCase(services=services)
 
     def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
