@@ -20,10 +20,10 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
     def __init__(self, providers: PieceOfClothingProviders) -> None:
         database_provider = providers.document_database_provider
         database_provider.database = DatabaseName.PIECE_OF_CLOTHING  # type: ignore
-        self.__cloths_collection = database_provider.database["cloths"]
+        self.__cloths_collection = database_provider.database["clothes"]
 
     async def register(self, piece_of_clothing: PieceOfClothingModel) -> PieceOfClothingIdModel:
         insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing.model_dump())
         if insertion_result.inserted_id:
-            return PieceOfClothingIdModel(registered_piece_of_clothing_id=insertion_result.inserted_id)
+            return PieceOfClothingIdModel(registered_piece_of_clothing_id=str(insertion_result.inserted_id))
         raise CouldNotPerformDatabaseOperation()
