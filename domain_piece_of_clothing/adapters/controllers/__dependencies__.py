@@ -44,4 +44,4 @@ class _ControllerDependency(metaclass=ABCMeta):
 class PieceOfClothingControllerDependencies(_ControllerDependency):
     @property
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
-        return self.register_piece_of_clothing_use_case()
+        return self._dependency_manager.register_piece_of_clothing_use_case()
