@@ -1,8 +1,11 @@
 from abc import ABCMeta, abstractmethod
 from typing import Generic, TypeVar
 
+from fastapi import FastAPI
+
 from domain_piece_of_clothing.business import AdaptersFactoryInterface
 
+from .controllers import Binding
 from .interface_adapters import PieceOfClothingAdapter, PieceOfClothingProviders
 from .interface_adapters.interfaces import DocumentDatabaseProvider
 
@@ -21,3 +24,7 @@ class AdaptersFactory(AdaptersFactoryInterface[PieceOfClothingAdapter]):
     def piece_of_clothing_service(self) -> PieceOfClothingAdapter:
         providers = PieceOfClothingProviders(document_database_provider=self.__factory.database_provider())
         return PieceOfClothingAdapter(providers=providers)
+
+    @staticmethod
+    def register_routes(app: FastAPI) -> None:
+        Binding().register_all(app)
