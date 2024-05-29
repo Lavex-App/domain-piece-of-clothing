@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "domain-piece-of-clothing"
+version = "0.1.0"
+description = ""
+authors = ["MrAbade <vini.abade@outlook.com.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.24.0"
+wily = "^1.25.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+mypy = "^1.10.0"
+pylint = "^3.2.2"
+flake8 = "^7.0.0"
+
+
+[tool.isort]
+profile = "black"
+line_length = "120"
+known_first_party = ["commitizen", "tests"]
+
+[tool.black]
+line-length = 120
+
+[tool.mypy]
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pylint]
+init-hook = "import sys; sys.path.append('./payment_webhook'), sys.path.append('./tests')"
+fail-under = "10"
+
+[tool.pylint.format]
+max-line-length = "120"
+
+[tool.pylint.messages_control]
+disable = [
+    "C0103",
+    "C0114",
+    "C0116",
+    "C0301",
+    "C0321",
+    "C0115",
+    "R0903",
+    "W0236",
+    "W1203",
+    "E0611",
+    "R0913",
+]
+
+[tool.pylint.similarities]
+ignore-imports = "yes"
+min-similarity-lines = "15"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
