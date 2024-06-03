@@ -58,7 +58,8 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
         aggregate_result: dict = await self.__cloths_collection.aggregate(pipeline.build()).next()
         piece_of_clothing_result: dict = aggregate_result["data"]
         piece_of_clothing_list = [
-            PieceOfClothingIdModel(**piece_of_clothing, id=str(piece_of_clothing["_id"])) for piece_of_clothing in piece_of_clothing_result
+            PieceOfClothingIdModel(**piece_of_clothing, id=str(piece_of_clothing["_id"]))
+            for piece_of_clothing in piece_of_clothing_result
         ]
         total_pages = ceil(total_items / input_port.pagination.items_per_page)
         return PieceOfClothingItems(
