@@ -33,6 +33,10 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
 
     async def register(self, piece_of_clothing: PieceOfClothingModel) -> PieceOfClothingIdModel:
         piece_of_clothing_dict = piece_of_clothing.model_dump()
+        piece_of_clothing_dict["specifications"] = [
+            {**specification, "id": str(i)}
+            for i, specification in enumerate(piece_of_clothing_dict["specifications"], start=1)
+        ]
         insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing_dict)
         if insertion_result.inserted_id:
             return PieceOfClothingIdModel(id=str(insertion_result.inserted_id), **piece_of_clothing_dict)
