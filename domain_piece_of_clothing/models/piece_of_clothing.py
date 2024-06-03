@@ -31,5 +31,5 @@ class PieceOfClothingModel(BaseModel):
     specifications: list[ClothSpecificationModel]
 
 
-class PieceOfClothingIdModel(BaseModel):
-    registered_piece_of_clothing_id: str
+class PieceOfClothingIdModel(PieceOfClothingModel):
+    id: str
