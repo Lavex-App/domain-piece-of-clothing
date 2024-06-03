@@ -24,6 +24,14 @@ class ClothSpecificationModel(BaseModel):
     weight: int
 
 
+class ClothSpecificationIdModel(BaseModel):
+    id: str
+    gender: Gender
+    size_label: SizeLabel
+    size: int
+    weight: int
+
+
 class PieceOfClothingModel(BaseModel):
     name: str
     category: str
@@ -31,5 +39,9 @@ class PieceOfClothingModel(BaseModel):
     specifications: list[ClothSpecificationModel]
 
 
-class PieceOfClothingIdModel(PieceOfClothingModel):
+class PieceOfClothingIdModel(BaseModel):
     id: str
+    name: str
+    category: str
+    subcategory: str
+    specifications: list[ClothSpecificationIdModel]
