@@ -25,3 +25,11 @@ class RetrieveClothesInputPort(InputPort):
 
 class RetrieveClothesOutputPort(OutputPort, PieceOfClothingItems):
     msg: str
+
+
+class RemovePieceOfClothingInputPort(OutputPort):
+    id: str
+
+
+class RemovePieceOfClothingOutputPort(OutputPort):
+    msg: str

@@ -11,3 +11,6 @@ class PieceOfClothingService(metaclass=ABCMeta):
 
     @abstractmethod
     async def find_all_by_filter_and_pagination(self, input_port: RetrieveClothesInputPort) -> PieceOfClothingItems: ...
+
+    @abstractmethod
+    async def delete(self, piece_of_clothing_id: str) -> None: ...

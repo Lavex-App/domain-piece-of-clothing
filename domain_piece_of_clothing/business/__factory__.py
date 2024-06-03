@@ -5,6 +5,8 @@ from .services import PieceOfClothingService
 from .use_cases import (
     RegisterPieceOfClothingServices,
     RegisterPieceOfClothingUseCase,
+    RemovePieceOfClothingServices,
+    RemovePieceOfClothingUseCase,
     RetrieveClothesServices,
     RetrieveClothesUseCase,
 )
@@ -26,6 +28,10 @@ class BusinessFactory:
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
         services = RegisterPieceOfClothingServices(piece_of_clothing_service=self.__piece_of_clothing_service)
         return RegisterPieceOfClothingUseCase(services=services)
+
+    def remove_piece_of_clothing_use_case(self) -> RemovePieceOfClothingUseCase:
+        services = RemovePieceOfClothingServices(piece_of_clothing_service=self.__piece_of_clothing_service)
+        return RemovePieceOfClothingUseCase(services=services)
 
     def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
         services = RetrieveClothesServices(piece_of_clothing_service=self.__piece_of_clothing_service)
