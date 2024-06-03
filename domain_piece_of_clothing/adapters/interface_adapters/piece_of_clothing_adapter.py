@@ -1,6 +1,7 @@
 from math import ceil
 from typing import Any, NamedTuple, cast
 
+from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo.results import InsertOneResult
 
@@ -15,7 +16,7 @@ from domain_piece_of_clothing.models import (
     PieceOfClothingSortModel,
 )
 
-from .exceptions import CouldNotPerformDatabaseOperation
+from .exceptions import CouldNotPerformDatabaseOperationException, DocumentIdNotFoundException
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
 
 ProviderType = DocumentDatabaseProvider[AsyncIOMotorClient, AsyncIOMotorDatabase]
@@ -40,7 +41,13 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
         insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing_dict)
         if insertion_result.inserted_id:
             return PieceOfClothingIdModel(id=str(insertion_result.inserted_id), **piece_of_clothing_dict)
-        raise CouldNotPerformDatabaseOperation()
+        raise CouldNotPerformDatabaseOperationException()
+
+    async def delete(self, piece_of_clothing_id: str) -> None:
+        result = await self.__cloths_collection.delete_one({"_id": ObjectId(piece_of_clothing_id)})
+        if result.deleted_count == 0:
+            raise DocumentIdNotFoundException()
+        return None
 
     async def find_all_by_filter_and_pagination(self, input_port: RetrieveClothesInputPort) -> PieceOfClothingItems:
         query_filter = _PipelineMatch(input_port.filter).build()

@@ -4,7 +4,11 @@ from typing import Any, Optional
 from fastapi import Depends, Query
 
 from domain_piece_of_clothing.business import BusinessFactory
-from domain_piece_of_clothing.business.use_cases import RegisterPieceOfClothingUseCase, RetrieveClothesUseCase
+from domain_piece_of_clothing.business.use_cases import (
+    RegisterPieceOfClothingUseCase,
+    RemovePieceOfClothingUseCase,
+    RetrieveClothesUseCase,
+)
 from domain_piece_of_clothing.models import (
     Gender,
     PaginationModel,
@@ -42,6 +46,11 @@ class _ControllerDependencyManager(metaclass=_Singleton):
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
         if self.__factory:
             return self.__factory.register_piece_of_clothing_use_case()
+        raise ControllerDependencyManagerIsNotInitializedException()
+
+    def remove_piece_of_clothing_use_case(self) -> RemovePieceOfClothingUseCase:
+        if self.__factory:
+            return self.__factory.remove_piece_of_clothing_use_case()
         raise ControllerDependencyManagerIsNotInitializedException()
 
     def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
@@ -86,6 +95,10 @@ class PieceOfClothingControllerDependencies(_ControllerDependency):
     @property
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
         return self._dependency_manager.register_piece_of_clothing_use_case()
+
+    @property
+    def remove_piece_of_clothing_use_case(self) -> RemovePieceOfClothingUseCase:
+        return self._dependency_manager.remove_piece_of_clothing_use_case()
 
 
 class PieceOfClothingWithFilterAndPaginationControllerDependencies(_FilterAndPaginationControllerDependency):

@@ -1,14 +1,25 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
+from fastapi.responses import JSONResponse
 
-from domain_piece_of_clothing.business.ports import RegisterPieceOfClothingInputPort, RetrieveClothesInputPort
+from domain_piece_of_clothing.business.ports import (
+    RegisterPieceOfClothingInputPort,
+    RemovePieceOfClothingInputPort,
+    RetrieveClothesInputPort,
+)
 
+from ..interface_adapters.exceptions import DocumentIdNotFoundException
 from .__dependencies__ import (
     PieceOfClothingControllerDependencies,
     PieceOfClothingWithFilterAndPaginationControllerDependencies,
 )
-from .dtos import RegisterPieceOfClothingInputDTO, RegisterPieceOfClothingOutputDTO, RetrieveClothesOutputDTO
+from .dtos import (
+    RegisterPieceOfClothingInputDTO,
+    RegisterPieceOfClothingOutputDTO,
+    RemovePieceOfClothingOutputDTO,
+    RetrieveClothesOutputDTO,
+)
 
 piece_of_clothing_controller = APIRouter(prefix="/clothing")
 
@@ -42,3 +53,20 @@ async def retrieve_clothes(
     )
     output_port = await dependencies.retrieve_clothes_use_case(input_port=input_port)
     return RetrieveClothesOutputDTO(**output_port.model_dump())
+
+
+@piece_of_clothing_controller.delete(
+    "/{piece_of_clothing_id}",
+    response_model=RemovePieceOfClothingOutputDTO,
+    status_code=status.HTTP_200_OK,
+)
+async def remove_piece_of_clothing(
+    piece_of_clothing_id: str,
+    dependencies: Annotated[PieceOfClothingControllerDependencies, Depends()],
+) -> RemovePieceOfClothingOutputDTO | JSONResponse:
+    input_port = RemovePieceOfClothingInputPort(id=piece_of_clothing_id)
+    try:
+        output_port = await dependencies.remove_piece_of_clothing_use_case(input_port=input_port)
+    except DocumentIdNotFoundException as error:
+        return JSONResponse(content={error.type: error.msg}, status_code=status.HTTP_400_BAD_REQUEST)
+    return RemovePieceOfClothingOutputDTO(**output_port.model_dump())

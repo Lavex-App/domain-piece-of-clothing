@@ -12,3 +12,7 @@ class RegisterPieceOfClothingOutputDTO(OutputDTO, PieceOfClothingIdModel):
 
 class RetrieveClothesOutputDTO(OutputDTO, PieceOfClothingItems):
     msg: str
+
+
+class RemovePieceOfClothingOutputDTO(OutputDTO):
+    msg: str
