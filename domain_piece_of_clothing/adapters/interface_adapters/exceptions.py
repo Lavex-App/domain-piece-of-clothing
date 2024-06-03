@@ -8,6 +8,11 @@ class InterfaceAdaptersException(RuntimeError):
         return f"[{self.type}] {self.msg}"
 
 
-class CouldNotPerformDatabaseOperation(InterfaceAdaptersException):
+class CouldNotPerformDatabaseOperationException(InterfaceAdaptersException):
     def __init__(self) -> None:
         super().__init__("System down, try again later")
+
+
+class DocumentIdNotFoundException(InterfaceAdaptersException):
+    def __init__(self) -> None:
+        super().__init__("Could not find the document of the specified id")
