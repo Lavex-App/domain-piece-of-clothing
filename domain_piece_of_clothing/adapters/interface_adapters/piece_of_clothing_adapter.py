@@ -32,9 +32,10 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
         self.__cloths_collection = database_provider.database["clothes"]
 
     async def register(self, piece_of_clothing: PieceOfClothingModel) -> PieceOfClothingIdModel:
-        insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing.model_dump())
+        piece_of_clothing_dict = piece_of_clothing.model_dump()
+        insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing_dict)
         if insertion_result.inserted_id:
-            return PieceOfClothingIdModel(registered_piece_of_clothing_id=str(insertion_result.inserted_id))
+            return PieceOfClothingIdModel(id=str(insertion_result.inserted_id), **piece_of_clothing_dict)
         raise CouldNotPerformDatabaseOperation()
 
     async def find_all_by_filter_and_pagination(self, input_port: RetrieveClothesInputPort) -> PieceOfClothingItems:
@@ -57,7 +58,7 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
         aggregate_result: dict = await self.__cloths_collection.aggregate(pipeline.build()).next()
         piece_of_clothing_result: dict = aggregate_result["data"]
         piece_of_clothing_list = [
-            PieceOfClothingModel(**piece_of_clothing) for piece_of_clothing in piece_of_clothing_result
+            PieceOfClothingIdModel(**piece_of_clothing, id=str(piece_of_clothing["_id"])) for piece_of_clothing in piece_of_clothing_result
         ]
         total_pages = ceil(total_items / input_port.pagination.items_per_page)
         return PieceOfClothingItems(
