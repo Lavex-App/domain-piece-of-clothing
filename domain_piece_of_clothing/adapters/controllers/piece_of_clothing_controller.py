@@ -63,7 +63,7 @@ async def retrieve_clothes(
 async def remove_piece_of_clothing(
     piece_of_clothing_id: str,
     dependencies: Annotated[PieceOfClothingControllerDependencies, Depends()],
-) -> RemovePieceOfClothingOutputDTO:
+) -> RemovePieceOfClothingOutputDTO | JSONResponse:
     input_port = RemovePieceOfClothingInputPort(id=piece_of_clothing_id)
     try:
         output_port = await dependencies.remove_piece_of_clothing_use_case(input_port=input_port)
