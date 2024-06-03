@@ -16,7 +16,4 @@ class RegisterPieceOfClothingUseCase(UseCase):
 
     async def __call__(self, input_port: RegisterPieceOfClothingInputPort) -> RegisterPieceOfClothingOutputPort:
         model_result = await self.__services.piece_of_clothing_service.register(input_port)
-        return RegisterPieceOfClothingOutputPort(
-            registered_piece_of_clothing_id=model_result.registered_piece_of_clothing_id,
-            msg="ok",
-        )
+        return RegisterPieceOfClothingOutputPort(**model_result.model_dump(), msg="ok")

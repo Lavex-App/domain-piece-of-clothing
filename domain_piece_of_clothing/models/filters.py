@@ -2,7 +2,7 @@ from typing import Annotated, Optional
 
 from pydantic import AfterValidator, BaseModel, ConfigDict
 
-from .piece_of_clothing import Gender, PieceOfClothingModel, SizeLabel
+from .piece_of_clothing import Gender, PieceOfClothingIdModel, SizeLabel
 
 
 class PieceOfClothingFilterModel(BaseModel):
@@ -63,4 +63,4 @@ class PageModel(BaseModel):
 
 
 class PieceOfClothingItems(PageModel):
-    items: list[PieceOfClothingModel]
+    items: list[PieceOfClothingIdModel]
