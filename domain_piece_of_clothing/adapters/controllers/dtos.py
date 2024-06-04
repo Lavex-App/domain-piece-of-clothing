@@ -1,4 +1,9 @@
-from domain_piece_of_clothing.models import PieceOfClothingIdModel, PieceOfClothingItems, PieceOfClothingModel
+from domain_piece_of_clothing.models import (
+    PieceOfClothingIdModel,
+    PieceOfClothingItems,
+    PieceOfClothingModel,
+    PieceOfClothingUpdateModel,
+)
 
 from .interfaces import InputDTO, OutputDTO
 
@@ -15,4 +20,11 @@ class RetrieveClothesOutputDTO(OutputDTO, PieceOfClothingItems):
 
 
 class RemovePieceOfClothingOutputDTO(OutputDTO):
+    msg: str
+
+
+class UpdatePieceOfClothesInputDTO(OutputDTO, PieceOfClothingUpdateModel): ...
+
+
+class UpdatePieceOfClothesOutputDTO(OutputDTO):
     msg: str
