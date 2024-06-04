@@ -9,6 +9,8 @@ from .use_cases import (
     RemovePieceOfClothingUseCase,
     RetrieveClothesServices,
     RetrieveClothesUseCase,
+    UpdatePieceOfClothingServices,
+    UpdatePieceOfClothingUseCase,
 )
 
 T_persist_piece_of_clothing_service_co = TypeVar(
@@ -32,6 +34,10 @@ class BusinessFactory:
     def remove_piece_of_clothing_use_case(self) -> RemovePieceOfClothingUseCase:
         services = RemovePieceOfClothingServices(piece_of_clothing_service=self.__piece_of_clothing_service)
         return RemovePieceOfClothingUseCase(services=services)
+
+    def update_piece_of_clothing_use_case(self) -> UpdatePieceOfClothingUseCase:
+        services = UpdatePieceOfClothingServices(piece_of_clothing_service=self.__piece_of_clothing_service)
+        return UpdatePieceOfClothingUseCase(services=services)
 
     def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
         services = RetrieveClothesServices(piece_of_clothing_service=self.__piece_of_clothing_service)

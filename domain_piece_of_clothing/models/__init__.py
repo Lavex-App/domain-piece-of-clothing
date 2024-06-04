@@ -5,7 +5,14 @@ from .filters import (
     PieceOfClothingItems,
     PieceOfClothingSortModel,
 )
-from .piece_of_clothing import ClothSpecificationModel, Gender, PieceOfClothingIdModel, PieceOfClothingModel, SizeLabel
+from .piece_of_clothing import (
+    ClothSpecificationModel,
+    Gender,
+    PieceOfClothingIdModel,
+    PieceOfClothingModel,
+    SizeLabel,
+    PieceOfClothingUpdateModel,
+)
 
 __all__ = [
     "PieceOfClothingModel",
@@ -18,4 +25,5 @@ __all__ = [
     "PieceOfClothingFilterModel",
     "PieceOfClothingItems",
     "PieceOfClothingSortModel",
+    "PieceOfClothingUpdateModel",
 ]
