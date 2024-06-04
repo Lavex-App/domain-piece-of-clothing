@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -45,3 +46,9 @@ class PieceOfClothingIdModel(BaseModel):
     category: str
     subcategory: str
     specifications: list[ClothSpecificationIdModel]
+
+
+class PieceOfClothingUpdateModel(BaseModel):
+    name: Optional[str] = None
+    category: Optional[str] = None
+    subcategory: Optional[str] = None

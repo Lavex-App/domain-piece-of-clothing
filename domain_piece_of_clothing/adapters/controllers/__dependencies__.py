@@ -8,6 +8,7 @@ from domain_piece_of_clothing.business.use_cases import (
     RegisterPieceOfClothingUseCase,
     RemovePieceOfClothingUseCase,
     RetrieveClothesUseCase,
+    UpdatePieceOfClothingUseCase,
 )
 from domain_piece_of_clothing.models import (
     Gender,
@@ -51,6 +52,11 @@ class _ControllerDependencyManager(metaclass=_Singleton):
     def remove_piece_of_clothing_use_case(self) -> RemovePieceOfClothingUseCase:
         if self.__factory:
             return self.__factory.remove_piece_of_clothing_use_case()
+        raise ControllerDependencyManagerIsNotInitializedException()
+
+    def update_piece_of_clothing_use_case(self) -> UpdatePieceOfClothingUseCase:
+        if self.__factory:
+            return self.__factory.update_piece_of_clothing_use_case()
         raise ControllerDependencyManagerIsNotInitializedException()
 
     def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
@@ -99,6 +105,10 @@ class PieceOfClothingControllerDependencies(_ControllerDependency):
     @property
     def remove_piece_of_clothing_use_case(self) -> RemovePieceOfClothingUseCase:
         return self._dependency_manager.remove_piece_of_clothing_use_case()
+
+    @property
+    def update_piece_of_clothing(self) -> UpdatePieceOfClothingUseCase:
+        return self._dependency_manager.update_piece_of_clothing_use_case()
 
 
 class PieceOfClothingWithFilterAndPaginationControllerDependencies(_FilterAndPaginationControllerDependency):

@@ -5,6 +5,7 @@ from domain_piece_of_clothing.models import (
     PieceOfClothingItems,
     PieceOfClothingModel,
     PieceOfClothingSortModel,
+    PieceOfClothingUpdateModel,
 )
 
 from .interfaces import InputPort, OutputPort
@@ -32,4 +33,12 @@ class RemovePieceOfClothingInputPort(OutputPort):
 
 
 class RemovePieceOfClothingOutputPort(OutputPort):
+    msg: str
+
+
+class UpdatePieceOfClothingInputPort(OutputPort, PieceOfClothingUpdateModel):
+    id: str
+
+
+class UpdatePieceOfClothingOutputPort(OutputPort):
     msg: str

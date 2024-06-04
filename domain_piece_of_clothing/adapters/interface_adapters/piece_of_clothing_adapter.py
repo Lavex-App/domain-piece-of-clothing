@@ -15,6 +15,7 @@ from domain_piece_of_clothing.models import (
     PieceOfClothingModel,
     PieceOfClothingSortModel,
 )
+from domain_piece_of_clothing.models.piece_of_clothing import PieceOfClothingUpdateModel
 
 from .exceptions import CouldNotPerformDatabaseOperationException, DocumentIdNotFoundException
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
@@ -39,13 +40,21 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
             for i, specification in enumerate(piece_of_clothing_dict["specifications"], start=1)
         ]
         insertion_result: InsertOneResult = await self.__cloths_collection.insert_one(piece_of_clothing_dict)
-        if insertion_result.inserted_id:
-            return PieceOfClothingIdModel(id=str(insertion_result.inserted_id), **piece_of_clothing_dict)
-        raise CouldNotPerformDatabaseOperationException()
+        if not insertion_result.inserted_id:
+            raise CouldNotPerformDatabaseOperationException()
+        return PieceOfClothingIdModel(id=str(insertion_result.inserted_id), **piece_of_clothing_dict)
 
     async def delete(self, piece_of_clothing_id: str) -> None:
         result = await self.__cloths_collection.delete_one({"_id": ObjectId(piece_of_clothing_id)})
         if result.deleted_count == 0:
+            raise DocumentIdNotFoundException()
+        return None
+
+    async def update(self, piece_of_clothing_id: str, piece_of_clothing_update: PieceOfClothingUpdateModel) -> None:
+        update_filter = {"_id": ObjectId(piece_of_clothing_id)}
+        new_values = piece_of_clothing_update.model_dump(exclude_none=True)
+        result = await self.__cloths_collection.update_one(update_filter, {"$set": new_values})
+        if result.modified_count == 0:
             raise DocumentIdNotFoundException()
         return None
 
