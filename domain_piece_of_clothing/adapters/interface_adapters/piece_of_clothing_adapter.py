@@ -2,7 +2,6 @@ from math import ceil
 from typing import Any, NamedTuple, cast
 
 from bson import ObjectId
-from domain_piece_of_clothing.models.piece_of_clothing import PieceOfClothingUpdateModel
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pymongo.results import InsertOneResult
 
@@ -16,6 +15,7 @@ from domain_piece_of_clothing.models import (
     PieceOfClothingModel,
     PieceOfClothingSortModel,
 )
+from domain_piece_of_clothing.models.piece_of_clothing import PieceOfClothingUpdateModel
 
 from .exceptions import CouldNotPerformDatabaseOperationException, DocumentIdNotFoundException
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter

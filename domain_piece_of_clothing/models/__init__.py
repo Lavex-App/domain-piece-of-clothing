@@ -10,8 +10,8 @@ from .piece_of_clothing import (
     Gender,
     PieceOfClothingIdModel,
     PieceOfClothingModel,
-    SizeLabel,
     PieceOfClothingUpdateModel,
+    SizeLabel,
 )
 
 __all__ = [
