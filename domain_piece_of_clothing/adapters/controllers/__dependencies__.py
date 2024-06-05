@@ -5,6 +5,7 @@ from fastapi import Depends, Query
 
 from domain_piece_of_clothing.business import BusinessFactory
 from domain_piece_of_clothing.business.use_cases import (
+    AddClothSpecificationUseCase,
     RegisterPieceOfClothingUseCase,
     RemovePieceOfClothingUseCase,
     RetrieveClothesUseCase,
@@ -64,6 +65,11 @@ class _ControllerDependencyManager(metaclass=_Singleton):
             return self.__factory.retrieve_clothes_use_case()
         raise ControllerDependencyManagerIsNotInitializedException()
 
+    def add_cloth_specification_use_case(self) -> AddClothSpecificationUseCase:
+        if self.__factory:
+            return self.__factory.add_cloth_specification_use_case()
+        raise ControllerDependencyManagerIsNotInitializedException()
+
 
 class _ControllerDependency(metaclass=ABCMeta):
     def __init__(self) -> None:
@@ -97,7 +103,7 @@ class _FilterAndPaginationControllerDependency(_ControllerDependency):
         )
 
 
-class PieceOfClothingControllerDependencies(_ControllerDependency):
+class ControllerDependencies(_ControllerDependency):
     @property
     def register_piece_of_clothing_use_case(self) -> RegisterPieceOfClothingUseCase:
         return self._dependency_manager.register_piece_of_clothing_use_case()
@@ -110,8 +116,12 @@ class PieceOfClothingControllerDependencies(_ControllerDependency):
     def update_piece_of_clothing(self) -> UpdatePieceOfClothingUseCase:
         return self._dependency_manager.update_piece_of_clothing_use_case()
 
+    @property
+    def add_cloth_specification_use_case(self) -> AddClothSpecificationUseCase:
+        return self._dependency_manager.add_cloth_specification_use_case()
 
-class PieceOfClothingWithFilterAndPaginationControllerDependencies(_FilterAndPaginationControllerDependency):
+
+class FilterAndPaginationControllerDependencies(_FilterAndPaginationControllerDependency):
     @property
     def retrieve_clothes_use_case(self) -> RetrieveClothesUseCase:
         return self._dependency_manager.retrieve_clothes_use_case()

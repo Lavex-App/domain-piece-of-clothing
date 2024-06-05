@@ -1,4 +1,6 @@
 from domain_piece_of_clothing.models import (
+    ClothSpecificationIdModel,
+    ClothSpecificationModel,
     PaginationModel,
     PieceOfClothingFilterModel,
     PieceOfClothingIdModel,
@@ -41,4 +43,14 @@ class UpdatePieceOfClothingInputPort(OutputPort, PieceOfClothingUpdateModel):
 
 
 class UpdatePieceOfClothingOutputPort(OutputPort):
+    msg: str
+
+
+class AddClothSpecificationInputPort(InputPort):
+    specifications: list[ClothSpecificationModel]
+    id: str
+
+
+class AddClothSpecificationOutputPort(OutputPort):
+    added_specifications: list[ClothSpecificationIdModel]
     msg: str

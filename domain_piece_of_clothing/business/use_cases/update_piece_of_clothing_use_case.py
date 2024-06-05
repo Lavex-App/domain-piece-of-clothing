@@ -1,7 +1,7 @@
 from typing import NamedTuple
 
 from domain_piece_of_clothing.business.ports import UpdatePieceOfClothingInputPort, UpdatePieceOfClothingOutputPort
-from domain_piece_of_clothing.models.piece_of_clothing import PieceOfClothingUpdateModel
+from domain_piece_of_clothing.models import PieceOfClothingUpdateModel
 
 from ..services import PieceOfClothingService
 from .interfaces import UseCase

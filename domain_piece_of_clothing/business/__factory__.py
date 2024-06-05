@@ -1,8 +1,10 @@
 from abc import ABCMeta, abstractmethod
 from typing import Generic, TypeVar
 
-from .services import PieceOfClothingService
+from .services import ClothSpecificationService, PieceOfClothingService
 from .use_cases import (
+    AddClothSpecificationServices,
+    AddClothSpecificationUseCase,
     RegisterPieceOfClothingServices,
     RegisterPieceOfClothingUseCase,
     RemovePieceOfClothingServices,
@@ -13,14 +15,24 @@ from .use_cases import (
     UpdatePieceOfClothingUseCase,
 )
 
-T_persist_piece_of_clothing_service_co = TypeVar(
-    "T_persist_piece_of_clothing_service_co", bound=PieceOfClothingService, covariant=True
+T_piece_of_clothing_service_co = TypeVar("T_piece_of_clothing_service_co", bound=PieceOfClothingService, covariant=True)
+T_cloth_specification_service_co = TypeVar(
+    "T_cloth_specification_service_co", bound=ClothSpecificationService, covariant=True
 )
 
 
-class AdaptersFactoryInterface(Generic[T_persist_piece_of_clothing_service_co], metaclass=ABCMeta):
+class AdaptersFactoryInterface(
+    Generic[
+        T_piece_of_clothing_service_co,
+        T_cloth_specification_service_co,
+    ],
+    metaclass=ABCMeta,
+):
     @abstractmethod
-    def piece_of_clothing_service(self) -> T_persist_piece_of_clothing_service_co: ...
+    def piece_of_clothing_service(self) -> T_piece_of_clothing_service_co: ...
+
+    @abstractmethod
+    def cloth_specification_service(self) -> T_cloth_specification_service_co: ...
 
 
 class BusinessFactory:
@@ -43,6 +55,14 @@ class BusinessFactory:
         services = RetrieveClothesServices(piece_of_clothing_service=self.__piece_of_clothing_service)
         return RetrieveClothesUseCase(services=services)
 
+    def add_cloth_specification_use_case(self) -> AddClothSpecificationUseCase:
+        services = AddClothSpecificationServices(cloth_specification_service=self.__cloth_specification_service)
+        return AddClothSpecificationUseCase(services=services)
+
     @property
     def __piece_of_clothing_service(self) -> PieceOfClothingService:
         return self.__factory.piece_of_clothing_service()
+
+    @property
+    def __cloth_specification_service(self) -> ClothSpecificationService:
+        return self.__factory.cloth_specification_service()

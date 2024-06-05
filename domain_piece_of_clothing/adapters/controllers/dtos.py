@@ -1,4 +1,6 @@
 from domain_piece_of_clothing.models import (
+    ClothSpecificationIdModel,
+    ClothSpecificationModel,
     PieceOfClothingIdModel,
     PieceOfClothingItems,
     PieceOfClothingModel,
@@ -23,8 +25,17 @@ class RemovePieceOfClothingOutputDTO(OutputDTO):
     msg: str
 
 
-class UpdatePieceOfClothesInputDTO(OutputDTO, PieceOfClothingUpdateModel): ...
+class UpdatePieceOfClothesInputDTO(InputDTO, PieceOfClothingUpdateModel): ...
 
 
 class UpdatePieceOfClothesOutputDTO(OutputDTO):
+    msg: str
+
+
+class AddClothSpecificationInputDTO(InputDTO):
+    specifications: list[ClothSpecificationModel]
+
+
+class AddClothSpecificationOutputDTO(OutputDTO):
+    added_specifications: list[ClothSpecificationIdModel]
     msg: str

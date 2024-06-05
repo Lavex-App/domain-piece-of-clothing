@@ -14,10 +14,14 @@ from domain_piece_of_clothing.models import (
     PieceOfClothingItems,
     PieceOfClothingModel,
     PieceOfClothingSortModel,
+    PieceOfClothingUpdateModel,
 )
-from domain_piece_of_clothing.models.piece_of_clothing import PieceOfClothingUpdateModel
 
-from .exceptions import CouldNotPerformDatabaseOperationException, DocumentIdNotFoundException
+from .exceptions import (
+    CouldNotPerformDatabaseOperationException,
+    DatabaseOperationNotAllowedException,
+    DocumentIdNotFoundException,
+)
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
 
 ProviderType = DocumentDatabaseProvider[AsyncIOMotorClient, AsyncIOMotorDatabase]
@@ -55,7 +59,7 @@ class PieceOfClothingAdapter(InterfaceAdapter, PieceOfClothingService):
         new_values = piece_of_clothing_update.model_dump(exclude_none=True)
         result = await self.__cloths_collection.update_one(update_filter, {"$set": new_values})
         if result.modified_count == 0:
-            raise DocumentIdNotFoundException()
+            raise DatabaseOperationNotAllowedException()
         return None
 
     async def find_all_by_filter_and_pagination(self, input_port: RetrieveClothesInputPort) -> PieceOfClothingItems:

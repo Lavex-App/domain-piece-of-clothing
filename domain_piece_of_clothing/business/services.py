@@ -1,6 +1,8 @@
 from abc import ABCMeta, abstractmethod
 
 from domain_piece_of_clothing.models import (
+    ClothSpecificationIdModel,
+    ClothSpecificationModel,
     PieceOfClothingIdModel,
     PieceOfClothingItems,
     PieceOfClothingModel,
@@ -22,3 +24,12 @@ class PieceOfClothingService(metaclass=ABCMeta):
 
     @abstractmethod
     async def update(self, piece_of_clothing_id: str, piece_of_clothing_update: PieceOfClothingUpdateModel) -> None: ...
+
+
+class ClothSpecificationService(metaclass=ABCMeta):
+    @abstractmethod
+    async def add_all(
+        self,
+        piece_of_clothing_id: str,
+        cloth_specifications: list[ClothSpecificationModel],
+    ) -> list[ClothSpecificationIdModel]: ...
