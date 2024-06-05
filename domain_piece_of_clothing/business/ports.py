@@ -1,6 +1,7 @@
 from domain_piece_of_clothing.models import (
     ClothSpecificationIdModel,
     ClothSpecificationModel,
+    ClothSpecificationUpdateModel,
     PaginationModel,
     PieceOfClothingFilterModel,
     PieceOfClothingIdModel,
@@ -62,4 +63,14 @@ class RemoveClothSpecificationInputPort(InputPort):
 
 
 class RemoveClothSpecificationOutputPort(OutputPort):
+    msg: str
+
+
+class UpdateClothSpecificationInputPort(InputPort):
+    id: str
+    cloth_specification_id: str
+    cloth_specification_update: ClothSpecificationUpdateModel
+
+
+class UpdateClothSpecificationOutputPort(OutputPort):
     msg: str

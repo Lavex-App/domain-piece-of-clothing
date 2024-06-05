@@ -3,6 +3,7 @@ from abc import ABCMeta, abstractmethod
 from domain_piece_of_clothing.models import (
     ClothSpecificationIdModel,
     ClothSpecificationModel,
+    ClothSpecificationUpdateModel,
     PieceOfClothingIdModel,
     PieceOfClothingItems,
     PieceOfClothingModel,
@@ -36,3 +37,11 @@ class ClothSpecificationService(metaclass=ABCMeta):
 
     @abstractmethod
     async def delete(self, piece_of_clothing_id: str, cloth_specification_id: str) -> None: ...
+
+    @abstractmethod
+    async def update(
+        self,
+        piece_of_clothing_id: str,
+        cloth_specification_id: str,
+        cloth_specification_update: ClothSpecificationUpdateModel,
+    ) -> None: ...

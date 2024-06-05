@@ -13,6 +13,8 @@ from .use_cases import (
     RemovePieceOfClothingUseCase,
     RetrieveClothesServices,
     RetrieveClothesUseCase,
+    UpdateClothSpecificationServices,
+    UpdateClothSpecificationUseCase,
     UpdatePieceOfClothingServices,
     UpdatePieceOfClothingUseCase,
 )
@@ -64,6 +66,10 @@ class BusinessFactory:
     def remove_cloth_specification_use_case(self) -> RemoveClothSpecificationUseCase:
         services = RemoveClothSpecificationServices(cloth_specification_service=self.__cloth_specification_service)
         return RemoveClothSpecificationUseCase(services=services)
+
+    def update_cloth_specification_use_case(self) -> UpdateClothSpecificationUseCase:
+        services = UpdateClothSpecificationServices(cloth_specification_service=self.__cloth_specification_service)
+        return UpdateClothSpecificationUseCase(services=services)
 
     @property
     def __piece_of_clothing_service(self) -> PieceOfClothingService:
