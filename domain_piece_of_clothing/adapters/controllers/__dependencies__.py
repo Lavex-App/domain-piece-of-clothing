@@ -7,6 +7,7 @@ from domain_piece_of_clothing.business import BusinessFactory
 from domain_piece_of_clothing.business.use_cases import (
     AddClothSpecificationUseCase,
     RegisterPieceOfClothingUseCase,
+    RemoveClothSpecificationUseCase,
     RemovePieceOfClothingUseCase,
     RetrieveClothesUseCase,
     UpdatePieceOfClothingUseCase,
@@ -70,6 +71,11 @@ class _ControllerDependencyManager(metaclass=_Singleton):
             return self.__factory.add_cloth_specification_use_case()
         raise ControllerDependencyManagerIsNotInitializedException()
 
+    def remove_cloth_specification_use_case(self) -> RemoveClothSpecificationUseCase:
+        if self.__factory:
+            return self.__factory.remove_cloth_specification_use_case()
+        raise ControllerDependencyManagerIsNotInitializedException()
+
 
 class _ControllerDependency(metaclass=ABCMeta):
     def __init__(self) -> None:
@@ -119,6 +125,10 @@ class ControllerDependencies(_ControllerDependency):
     @property
     def add_cloth_specification_use_case(self) -> AddClothSpecificationUseCase:
         return self._dependency_manager.add_cloth_specification_use_case()
+
+    @property
+    def remove_cloth_specification_use_case(self) -> RemoveClothSpecificationUseCase:
+        return self._dependency_manager.remove_cloth_specification_use_case()
 
 
 class FilterAndPaginationControllerDependencies(_FilterAndPaginationControllerDependency):

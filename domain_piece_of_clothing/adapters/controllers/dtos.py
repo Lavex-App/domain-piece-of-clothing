@@ -39,3 +39,7 @@ class AddClothSpecificationInputDTO(InputDTO):
 class AddClothSpecificationOutputDTO(OutputDTO):
     added_specifications: list[ClothSpecificationIdModel]
     msg: str
+
+
+class RemoveClothSpecificationOutputDTO(OutputDTO):
+    msg: str
