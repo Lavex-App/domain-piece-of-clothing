@@ -7,6 +7,8 @@ from .use_cases import (
     AddClothSpecificationUseCase,
     RegisterPieceOfClothingServices,
     RegisterPieceOfClothingUseCase,
+    RemoveClothSpecificationServices,
+    RemoveClothSpecificationUseCase,
     RemovePieceOfClothingServices,
     RemovePieceOfClothingUseCase,
     RetrieveClothesServices,
@@ -58,6 +60,10 @@ class BusinessFactory:
     def add_cloth_specification_use_case(self) -> AddClothSpecificationUseCase:
         services = AddClothSpecificationServices(cloth_specification_service=self.__cloth_specification_service)
         return AddClothSpecificationUseCase(services=services)
+
+    def remove_cloth_specification_use_case(self) -> RemoveClothSpecificationUseCase:
+        services = RemoveClothSpecificationServices(cloth_specification_service=self.__cloth_specification_service)
+        return RemoveClothSpecificationUseCase(services=services)
 
     @property
     def __piece_of_clothing_service(self) -> PieceOfClothingService:
