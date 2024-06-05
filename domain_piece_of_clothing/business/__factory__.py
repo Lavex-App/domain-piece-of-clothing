@@ -64,5 +64,5 @@ class BusinessFactory:
         return self.__factory.piece_of_clothing_service()
 
     @property
-    def __cloth_specification_service(self) -> PieceOfClothingService:
+    def __cloth_specification_service(self) -> ClothSpecificationService:
         return self.__factory.cloth_specification_service()
