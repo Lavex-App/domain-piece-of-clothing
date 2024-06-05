@@ -33,3 +33,6 @@ class ClothSpecificationService(metaclass=ABCMeta):
         piece_of_clothing_id: str,
         cloth_specifications: list[ClothSpecificationModel],
     ) -> list[ClothSpecificationIdModel]: ...
+
+    @abstractmethod
+    async def delete(self, piece_of_clothing_id: str, cloth_specification_id: str) -> None: ...

@@ -54,3 +54,12 @@ class AddClothSpecificationInputPort(InputPort):
 class AddClothSpecificationOutputPort(OutputPort):
     added_specifications: list[ClothSpecificationIdModel]
     msg: str
+
+
+class RemoveClothSpecificationInputPort(InputPort):
+    id: str
+    cloth_specification_id: str
+
+
+class RemoveClothSpecificationOutputPort(OutputPort):
+    msg: str
