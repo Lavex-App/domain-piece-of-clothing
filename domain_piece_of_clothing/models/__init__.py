@@ -6,6 +6,7 @@ from .filters import (
     PieceOfClothingSortModel,
 )
 from .piece_of_clothing import (
+    ClothSpecificationIdModel,
     ClothSpecificationModel,
     Gender,
     PieceOfClothingIdModel,
@@ -17,6 +18,7 @@ from .piece_of_clothing import (
 __all__ = [
     "PieceOfClothingModel",
     "ClothSpecificationModel",
+    "ClothSpecificationIdModel",
     "SizeLabel",
     "Gender",
     "PieceOfClothingIdModel",
