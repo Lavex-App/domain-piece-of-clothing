@@ -43,3 +43,11 @@ class ClothSpecificationAdapter(InterfaceAdapter, ClothSpecificationService):
         if not result.modified_count:
             raise DatabaseOperationNotAllowedException()
         return [ClothSpecificationIdModel(**specification) for specification in new_specifications]
+
+    async def delete(self, piece_of_clothing_id: str, cloth_specification_id: str) -> None:
+        deletition_filter = {"_id": ObjectId(piece_of_clothing_id)}
+        deletition_query = {"$pull": {"specifications": {"id": cloth_specification_id}}}
+        result = await self.__cloths_collection.update_one(deletition_filter, deletition_query)
+        if result.modified_count == 0:
+            raise DocumentIdNotFoundException()
+        return None
