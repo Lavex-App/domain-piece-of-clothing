@@ -4,6 +4,7 @@ from .register_piece_of_clothing_use_case import RegisterPieceOfClothingServices
 from .remove_cloth_specification_use_case import RemoveClothSpecificationServices, RemoveClothSpecificationUseCase
 from .remove_piece_of_clothing_use_case import RemovePieceOfClothingServices, RemovePieceOfClothingUseCase
 from .retrieve_clothes_use_case import RetrieveClothesServices, RetrieveClothesUseCase
+from .update_cloth_specification_use_case import UpdateClothSpecificationServices, UpdateClothSpecificationUseCase
 from .update_piece_of_clothing_use_case import UpdatePieceOfClothingServices, UpdatePieceOfClothingUseCase
 
 __all__ = [
@@ -20,4 +21,6 @@ __all__ = [
     "AddClothSpecificationServices",
     "RemoveClothSpecificationUseCase",
     "RemoveClothSpecificationServices",
+    "UpdateClothSpecificationServices",
+    "UpdateClothSpecificationUseCase",
 ]

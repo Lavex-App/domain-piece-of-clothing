@@ -19,4 +19,4 @@ class RemoveClothSpecificationUseCase(UseCase):
 
     async def __call__(self, input_port: RemoveClothSpecificationInputPort) -> RemoveClothSpecificationOutputPort:
         await self.__services.cloth_specification_service.delete(input_port.id, input_port.cloth_specification_id)
-        return RemoveClothSpecificationOutputPort(msg="ok")
+        return RemoveClothSpecificationOutputPort(msg="deleted")

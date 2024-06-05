@@ -5,6 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 
 from domain_piece_of_clothing.business.services import ClothSpecificationService
 from domain_piece_of_clothing.models import ClothSpecificationIdModel, ClothSpecificationModel
+from domain_piece_of_clothing.models.piece_of_clothing import ClothSpecificationUpdateModel
 
 from .exceptions import DatabaseOperationNotAllowedException, DocumentIdNotFoundException
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
@@ -48,6 +49,27 @@ class ClothSpecificationAdapter(InterfaceAdapter, ClothSpecificationService):
         deletition_filter = {"_id": ObjectId(piece_of_clothing_id)}
         deletition_query = {"$pull": {"specifications": {"id": cloth_specification_id}}}
         result = await self.__cloths_collection.update_one(deletition_filter, deletition_query)
+        if result.modified_count == 0:
+            raise DocumentIdNotFoundException()
+        return None
+
+    async def update(
+        self,
+        piece_of_clothing_id: str,
+        cloth_specification_id: str,
+        cloth_specification_update: ClothSpecificationUpdateModel,
+    ) -> None:
+        update_filter = {"_id": ObjectId(piece_of_clothing_id)}
+        cloth_specification_update_dict = {
+            "id": cloth_specification_id,
+            **cloth_specification_update.model_dump(exclude_none=True),
+        }
+        element_name = "element"
+        update_query = {"$set": {f"specifications.$[{element_name}]": cloth_specification_update_dict}}
+        update_array_filter = [{f"{element_name}.id": cloth_specification_id}]
+        result = await self.__cloths_collection.update_one(
+            update_filter, update_query, array_filters=update_array_filter
+        )
         if result.modified_count == 0:
             raise DocumentIdNotFoundException()
         return None

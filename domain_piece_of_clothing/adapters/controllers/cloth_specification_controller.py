@@ -3,11 +3,21 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 
-from domain_piece_of_clothing.business.ports import AddClothSpecificationInputPort, RemoveClothSpecificationInputPort
+from domain_piece_of_clothing.business.ports import (
+    AddClothSpecificationInputPort,
+    RemoveClothSpecificationInputPort,
+    UpdateClothSpecificationInputPort,
+)
 
 from ..interface_adapters.exceptions import InterfaceAdaptersException
 from .__dependencies__ import ControllerDependencies
-from .dtos import AddClothSpecificationInputDTO, AddClothSpecificationOutputDTO, RemoveClothSpecificationOutputDTO
+from .dtos import (
+    AddClothSpecificationInputDTO,
+    AddClothSpecificationOutputDTO,
+    RemoveClothSpecificationOutputDTO,
+    UpdateClothSpecificationInputDTO,
+    UpdateClothSpecificationOutputDTO,
+)
 
 cloth_specification_controller = APIRouter(prefix="/clothing", tags=["Cloth Specification"])
 
@@ -48,3 +58,26 @@ async def remove_cloth_specification(
     except InterfaceAdaptersException as error:
         return JSONResponse(content={"error": str(error)}, status_code=status.HTTP_400_BAD_REQUEST)
     return RemoveClothSpecificationOutputDTO(**output_port.model_dump())
+
+
+@cloth_specification_controller.patch(
+    "/{piece_of_clothing_id}/{cloth_specification_id}",
+    response_model=UpdateClothSpecificationOutputDTO,
+    status_code=status.HTTP_200_OK,
+)
+async def update_cloth_specification(
+    piece_of_clothing_id: str,
+    cloth_specification_id: str,
+    input_dto: UpdateClothSpecificationInputDTO,
+    dependencies: Annotated[ControllerDependencies, Depends()],
+) -> UpdateClothSpecificationOutputDTO | JSONResponse:
+    input_port = UpdateClothSpecificationInputPort(
+        id=piece_of_clothing_id,
+        cloth_specification_id=cloth_specification_id,
+        cloth_specification_update=input_dto,
+    )
+    try:
+        output_port = await dependencies.update_cloth_specification_use_case(input_port=input_port)
+    except InterfaceAdaptersException as error:
+        return JSONResponse(content={"error": str(error)}, status_code=status.HTTP_400_BAD_REQUEST)
+    return UpdateClothSpecificationOutputDTO(**output_port.model_dump())

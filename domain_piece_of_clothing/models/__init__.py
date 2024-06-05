@@ -8,6 +8,7 @@ from .filters import (
 from .piece_of_clothing import (
     ClothSpecificationIdModel,
     ClothSpecificationModel,
+    ClothSpecificationUpdateModel,
     Gender,
     PieceOfClothingIdModel,
     PieceOfClothingModel,
@@ -28,4 +29,5 @@ __all__ = [
     "PieceOfClothingItems",
     "PieceOfClothingSortModel",
     "PieceOfClothingUpdateModel",
+    "ClothSpecificationUpdateModel",
 ]

@@ -52,3 +52,10 @@ class PieceOfClothingUpdateModel(BaseModel):
     name: Optional[str] = None
     category: Optional[str] = None
     subcategory: Optional[str] = None
+
+
+class ClothSpecificationUpdateModel(BaseModel):
+    gender: Optional[Gender] = None
+    size_label: Optional[SizeLabel] = None
+    size: Optional[int] = None
+    weight: Optional[int] = None
