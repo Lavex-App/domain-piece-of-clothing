@@ -19,8 +19,8 @@ from domain_piece_of_clothing.models import (
 
 from .exceptions import (
     CouldNotPerformDatabaseOperationException,
-    DocumentIdNotFoundException,
     DatabaseOperationNotAllowedException,
+    DocumentIdNotFoundException,
 )
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
 

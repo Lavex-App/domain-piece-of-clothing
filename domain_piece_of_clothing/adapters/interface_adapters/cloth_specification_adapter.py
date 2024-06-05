@@ -6,7 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from domain_piece_of_clothing.business.services import ClothSpecificationService
 from domain_piece_of_clothing.models import ClothSpecificationIdModel, ClothSpecificationModel
 
-from .exceptions import DocumentIdNotFoundException, DatabaseOperationNotAllowedException
+from .exceptions import DatabaseOperationNotAllowedException, DocumentIdNotFoundException
 from .interfaces import DatabaseName, DocumentDatabaseProvider, InterfaceAdapter
 
 ProviderType = DocumentDatabaseProvider[AsyncIOMotorClient, AsyncIOMotorDatabase]

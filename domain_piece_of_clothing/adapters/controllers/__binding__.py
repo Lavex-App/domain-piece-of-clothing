@@ -1,7 +1,7 @@
 from fastapi.applications import FastAPI
 
-from .piece_of_clothing_controller import piece_of_clothing_controller
 from .cloth_specification_controller import cloth_specification_controller
+from .piece_of_clothing_controller import piece_of_clothing_controller
 
 
 class Binding:
